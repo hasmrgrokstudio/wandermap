@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// СТРАНА — аналог top-level Category в WP
+// ============================================
+model Country {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique          // URL: /country/vietnam
+  nameRu      String   @map("name_ru")
+  nameEn      String   @map("name_en")
+  description String?                   // ? = необязательное поле
+  flagEmoji   String?  @map("flag_emoji") // 🇻🇳
+  coverImage  String?  @map("cover_image")
+  metaTitle   String?  @map("meta_title")
+  metaDesc    String?  @map("meta_desc")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Связь: у страны много городов
+  cities      City[]
+
+  @@map("countries") // имя таблицы в БД
+}
+
+// ============================================
+// ГОРОД — аналог Sub-category в WP
+// ============================================
+model City {
+  id          Int      @id @default(autoincrement())
+  slug        String                     // URL: /country/vietnam/nha-trang
+  nameRu      String   @map("name_ru")
+  nameEn      String   @map("name_en")
+  description String?
+  coverImage  String?  @map("cover_image")
+  lat         Float?                     // координаты для карты
+  lng         Float?
+  metaTitle   String?  @map("meta_title")
+  metaDesc    String?  @map("meta_desc")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Связь: город принадлежит стране
+  countryId   Int      @map("country_id")
+  country     Country  @relation(fields: [countryId], references: [id])
+
+  // Связь: в городе много мест
+  places      Place[]
+
+  // slug уникален внутри страны (не глобально)
+  @@unique([countryId, slug])
+  @@map("cities")
+}
+
+// ============================================
+// МЕСТО — аналог Post в WP
+// ============================================
+model Place {
+  id          Int      @id @default(autoincrement())
+  slug        String
+  titleRu     String   @map("title_ru")
+  titleEn     String?  @map("title_en")
+  reviewRu    String?  @map("review_ru")  // текст отзыва
+  reviewEn    String?  @map("review_en")
+  rating      Int      @default(0)        // 1-5 звёзд
+  priceLevel  Int      @default(0) @map("price_level") // 1-4 ($-$$$$)
+  address     String?
+  lat         Float?
+  lng         Float?
+  coverImage  String?  @map("cover_image")
+  gallery     String[] @default([])       // массив URL картинок
+  isPublished Boolean  @default(false) @map("is_published")
+  visitDate   DateTime? @map("visit_date")
+  metaTitle   String?  @map("meta_title")
+  metaDesc    String?  @map("meta_desc")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Связь: место принадлежит городу
+  cityId      Int      @map("city_id")
+  city        City     @relation(fields: [cityId], references: [id])
+
+  // Связи many-to-many: у места много тегов, у тега много мест
+  tags        Tag[]
+  emojiTags   EmojiTag[]
+
+  @@unique([cityId, slug])
+  @@map("places")
+}
+
+// ============================================
+// ТЕГ — аналог Tag/Taxonomy в WP
+// Примеры: "еда", "развлечения", "пляж"
+// ============================================
+model Tag {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  nameRu      String   @map("name_ru")
+  nameEn      String?  @map("name_en")
+  icon        String?                    // иконка (опционально)
+  color       String?                    // цвет для UI
+  metaTitle   String?  @map("meta_title")
+  metaDesc    String?  @map("meta_desc")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Связь many-to-many с местами
+  places      Place[]
+
+  @@map("tags")
+}
+
+// ============================================
+// EMOJI-ТЕГ — уникальная фича WanderMap!
+// Примеры: 🔥 (огонь), 😍 (восторг), 🤮 (ужас)
+// ============================================
+model EmojiTag {
+  id            Int      @id @default(autoincrement())
+  emoji         String   @unique          // сам emoji: 🔥
+  slug          String   @unique          // URL: /emoji/fire
+  nameRu        String   @map("name_ru")  // "Огонь"
+  nameEn        String?  @map("name_en")  // "Fire"
+  descriptionRu String?  @map("description_ru")
+  descriptionEn String?  @map("description_en")
+  metaTitle     String?  @map("meta_title")
+  metaDesc      String?  @map("meta_desc")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  // Связь many-to-many с местами
+  places        Place[]
+
+  @@map("emoji_tags")
+}
