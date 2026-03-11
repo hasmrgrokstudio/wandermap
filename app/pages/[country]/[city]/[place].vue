@@ -84,13 +84,13 @@ if (!place.value) {
 const { t } = useI18n()
 useSeoMeta({
   title: place.value?.metaTitle || lc.t(place.value?.titleRu, place.value?.titleEn),
-  description: place.value?.metaDesc 
-    || lc.t(place.value?.reviewRu, place.value?.reviewEn) 
+  description: lc.t(place.value?.reviewRu, place.value?.reviewEn) 
+    || place.value?.metaDesc 
     || t('site.description'),
   
   ogTitle: place.value?.metaTitle || lc.t(place.value?.titleRu, place.value?.titleEn),
-  ogDescription: place.value?.metaDesc 
-    || lc.t(place.value?.reviewRu, place.value?.reviewEn) 
+  ogDescription: lc.t(place.value?.reviewRu, place.value?.reviewEn) 
+    || place.value?.metaDesc 
     || t('site.description'),
 })
 useSchemaOrg([

@@ -82,6 +82,14 @@
             </UFormGroup>
           </div>
 
+          <UFormGroup label="SEO Title">
+            <UInput v-model="form.metaTitle" />
+          </UFormGroup>
+
+          <UFormGroup label="SEO Description">
+            <UTextarea v-model="form.metaDesc" :rows="2" />
+          </UFormGroup>
+
           <div class="flex justify-end gap-2">
             <UButton variant="ghost" @click="resetForm">Отмена</UButton>
             <UButton type="submit" :loading="saving">Сохранить</UButton>
@@ -121,7 +129,9 @@ const emptyForm = {
   slug: '',
   flagEmoji: '',
   descriptionRu: '',
-  descriptionEn: ''
+  descriptionEn: '',
+  metaTitle: '',
+  metaDesc: ''
 }
 
 const form = ref({ ...emptyForm })
@@ -134,7 +144,9 @@ function editCountry(country: any) {
     slug: country.slug || '',
     flagEmoji: country.flagEmoji || '',
     descriptionRu: country.descriptionRu || '',
-    descriptionEn: country.descriptionEn || ''
+    descriptionEn: country.descriptionEn || '',
+    metaTitle: country.metaTitle || '',
+    metaDesc: country.metaDesc || ''
   }
   showForm.value = true
 }

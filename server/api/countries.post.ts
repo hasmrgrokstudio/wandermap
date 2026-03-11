@@ -16,7 +16,9 @@ export default defineEventHandler(async (event) => {
         flagEmoji: body.flagEmoji || null,
         nameEn: body.nameEn || '',
         descriptionRu: body.descriptionRu || null,
-        descriptionEn: body.descriptionEn || null
+        descriptionEn: body.descriptionEn || null,
+        metaTitle: body.metaTitle || null,
+        metaDesc: body.metaDesc || null
       }
     })
   

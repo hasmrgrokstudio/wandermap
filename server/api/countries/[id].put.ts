@@ -10,7 +10,9 @@ export default defineEventHandler(async (event) => {
         flagEmoji: body.flagEmoji,
         nameEn: body.nameEn,
         descriptionRu: body.descriptionRu,
-        descriptionEn: body.descriptionEn
+      descriptionEn: body.descriptionEn,
+      metaTitle: body.metaTitle,
+      metaDesc: body.metaDesc
       }
     })
   

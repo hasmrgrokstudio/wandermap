@@ -61,13 +61,13 @@ if (!emojiTag.value) {
 const { t } = useI18n()
 useSeoMeta({
   title: emojiTag.value?.metaTitle || lc.t(emojiTag.value?.nameRu, emojiTag.value?.nameEn),
-  description: emojiTag.value?.metaDesc 
-    || lc.t(emojiTag.value?.descriptionRu, emojiTag.value?.descriptionEn) 
+  description: lc.t(emojiTag.value?.descriptionRu, emojiTag.value?.descriptionEn) 
+    || emojiTag.value?.metaDesc 
     || t('site.description'),
   
   ogTitle: emojiTag.value?.metaTitle || lc.t(emojiTag.value?.nameRu, emojiTag.value?.nameEn),
-  ogDescription: emojiTag.value?.metaDesc 
-    || lc.t(emojiTag.value?.descriptionRu, emojiTag.value?.descriptionEn) 
+  ogDescription: lc.t(emojiTag.value?.descriptionRu, emojiTag.value?.descriptionEn) 
+    || emojiTag.value?.metaDesc 
     || t('site.description'),
 })
 useSchemaOrg([

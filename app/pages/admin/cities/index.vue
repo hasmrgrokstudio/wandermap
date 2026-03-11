@@ -68,8 +68,21 @@
             <UInput v-model="form.slug" placeholder="nha-trang" />
           </UFormGroup>
 
-          <UFormGroup label="Описание">
-            <UTextarea v-model="form.description" />
+          <div class="grid grid-cols-2 gap-4">
+            <UFormGroup label="Описание RU">
+              <UTextarea v-model="form.descriptionRu" :rows="3" />
+            </UFormGroup>
+            <UFormGroup label="Описание EN">
+              <UTextarea v-model="form.descriptionEn" :rows="3" />
+            </UFormGroup>
+          </div>
+
+          <UFormGroup label="SEO Title">
+            <UInput v-model="form.metaTitle" />
+          </UFormGroup>
+
+          <UFormGroup label="SEO Description">
+            <UTextarea v-model="form.metaDesc" :rows="2" />
           </UFormGroup>
 
           <div class="grid grid-cols-2 gap-4">
@@ -144,9 +157,12 @@ const emptyForm = {
   nameRu: '',
   nameEn: '',
   slug: '',
-  description: '',
+  descriptionRu: '',
+  descriptionEn: '',
   lat: '',
-  lng: ''
+  lng: '',
+  metaTitle: '',
+  metaDesc: ''
 }
 
 const form = ref({ ...emptyForm })
@@ -158,9 +174,12 @@ function editCity(city: any) {
     nameRu: city.nameRu || '',
     nameEn: city.nameEn || '',
     slug: city.slug || '',
-    description: city.description || '',
+    descriptionRu: city.descriptionRu || '',
+    descriptionEn: city.descriptionEn || '',
     lat: city.lat ?? '',
-    lng: city.lng ?? ''
+    lng: city.lng ?? '',
+    metaTitle: city.metaTitle || '',
+    metaDesc: city.metaDesc || ''
   }
   showForm.value = true
 }

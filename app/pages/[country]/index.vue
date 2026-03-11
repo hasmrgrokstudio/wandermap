@@ -54,13 +54,13 @@ const { t } = useI18n()
 
 useSeoMeta({
   title: country.value?.metaTitle || lc.t(country.value?.nameRu, country.value?.nameEn),
-  description: country.value?.metaDesc 
-    || lc.t(country.value?.descriptionRu, country.value?.descriptionEn) 
+  description: lc.t(country.value?.descriptionRu, country.value?.descriptionEn) 
+    || country.value?.metaDesc 
     || t('site.description'),
   
   ogTitle: country.value?.metaTitle || lc.t(country.value?.nameRu, country.value?.nameEn),
-  ogDescription: country.value?.metaDesc 
-    || lc.t(country.value?.descriptionRu, country.value?.descriptionEn) 
+  ogDescription: lc.t(country.value?.descriptionRu, country.value?.descriptionEn) 
+    || country.value?.metaDesc 
     || t('site.description'),
 })
 useSchemaOrg([

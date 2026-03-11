@@ -162,13 +162,13 @@ const { t } = useI18n()
 
 useSeoMeta({
   title: city.value?.metaTitle || lc.t(city.value?.nameRu, city.value?.nameEn),
-  description: city.value?.metaDesc 
-    || lc.t(city.value?.descriptionRu, city.value?.descriptionEn) 
+  description: lc.t(city.value?.descriptionRu, city.value?.descriptionEn) 
+    || city.value?.metaDesc 
     || t('site.description'),
   
   ogTitle: city.value?.metaTitle || lc.t(city.value?.nameRu, city.value?.nameEn),
-  ogDescription: city.value?.metaDesc 
-    || lc.t(city.value?.descriptionRu, city.value?.descriptionEn) 
+  ogDescription: lc.t(city.value?.descriptionRu, city.value?.descriptionEn) 
+    || city.value?.metaDesc 
     || t('site.description'),
 })
 useSchemaOrg([

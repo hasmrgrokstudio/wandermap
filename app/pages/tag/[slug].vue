@@ -48,13 +48,13 @@ if (!tag.value) {
 const { t } = useI18n()
 useSeoMeta({
   title: tag.value?.metaTitle || lc.t(tag.value?.nameRu, tag.value?.nameEn),
-  description: tag.value?.metaDesc 
-  || lc.t(tag.value?.descriptionRu, tag.value?.descriptionEn)
+  description: lc.t(tag.value?.descriptionRu, tag.value?.descriptionEn)
+  || tag.value?.metaDesc 
   || t('site.description'),
   
   ogTitle: tag.value?.metaTitle || lc.t(tag.value?.nameRu, tag.value?.nameEn),
-  ogDescription: tag.value?.metaDesc 
-  || lc.t(tag.value?.descriptionRu, tag.value?.descriptionEn)
+  ogDescription: lc.t(tag.value?.descriptionRu, tag.value?.descriptionEn)
+  || tag.value?.metaDesc 
   || t('site.description'),
 })
 useSchemaOrg([

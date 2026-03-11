@@ -145,6 +145,14 @@
             <UTextarea v-model="form.reviewEn" rows="3" />
           </UFormGroup>
 
+          <UFormGroup label="SEO Title">
+            <UInput v-model="form.metaTitle" />
+          </UFormGroup>
+
+          <UFormGroup label="SEO Description">
+            <UTextarea v-model="form.metaDesc" rows="2" />
+          </UFormGroup>
+
           <!-- Адрес и координаты -->
           <UFormGroup label="Адрес">
             <UInput v-model="form.address" />
@@ -297,7 +305,9 @@ const emptyForm = {
   tagIds: [] as number[],
   emojiTagIds: [] as number[],
   isPublished: false,
-  visitDate: ''
+  visitDate: '',
+  metaTitle: '',
+  metaDesc: ''
 }
 
 const form = ref({ ...emptyForm })
@@ -338,7 +348,9 @@ function editPlace(place: any) {
     tagIds: place.tags?.map((t: any) => t.id) || [],
     emojiTagIds: place.emojiTags?.map((t: any) => t.id) || [],
     isPublished: place.isPublished || false,
-    visitDate: place.visitDate ? place.visitDate.split('T')[0] : ''
+    visitDate: place.visitDate ? place.visitDate.split('T')[0] : '',
+    metaTitle: place.metaTitle || '',
+    metaDesc: place.metaDesc || ''
   }
   showForm.value = true
 }
