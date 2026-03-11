@@ -15,7 +15,8 @@ model Country {
   slug        String   @unique          // URL: /country/vietnam
   nameRu      String   @map("name_ru")
   nameEn      String   @map("name_en")
-  description String?                   // ? = необязательное поле
+  descriptionRu String? @map("description_ru")
+  descriptionEn String? @map("description_en")
   flagEmoji   String?  @map("flag_emoji") // 🇻🇳
   coverImage  String?  @map("cover_image")
   metaTitle   String?  @map("meta_title")
@@ -38,7 +39,8 @@ model City {
   slug        String                     // URL: /country/vietnam/nha-trang
   nameRu      String   @map("name_ru")
   nameEn      String   @map("name_en")
-  description String?
+  descriptionRu String? @map("description_ru")
+  descriptionEn String? @map("description_en")
   coverImage  String?  @map("cover_image")
   lat         Float?                     // координаты для карты
   lng         Float?
@@ -104,6 +106,8 @@ model Tag {
   slug        String   @unique
   nameRu      String   @map("name_ru")
   nameEn      String?  @map("name_en")
+  descriptionRu String? @map("description_ru")
+  descriptionEn String? @map("description_en")
   icon        String?                    // иконка (опционально)
   color       String?                    // цвет для UI
   metaTitle   String?  @map("meta_title")

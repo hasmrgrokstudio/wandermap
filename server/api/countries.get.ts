@@ -1,3 +1,5 @@
+import prisma from '~~/server/utils/prisma'
+
 export default defineEventHandler(async () => {
     // Получаем все страны с количеством городов
     const countries = await prisma.country.findMany({

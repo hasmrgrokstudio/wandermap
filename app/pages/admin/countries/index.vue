@@ -64,9 +64,23 @@
             <UInput v-model="form.flagEmoji" placeholder="🇻🇳" />
           </UFormGroup>
 
-          <UFormGroup label="Описание">
-            <UTextarea v-model="form.description" placeholder="Краткое описание страны" />
-          </UFormGroup>
+          <div class="grid grid-cols-2 gap-4">
+            <UFormGroup label="Описание RU">
+              <UTextarea
+                v-model="form.descriptionRu"
+                placeholder="Краткое описание страны на русском"
+                :rows="3"
+              />
+            </UFormGroup>
+
+            <UFormGroup label="Описание EN">
+              <UTextarea
+                v-model="form.descriptionEn"
+                placeholder="Short description in English"
+                :rows="3"
+              />
+            </UFormGroup>
+          </div>
 
           <div class="flex justify-end gap-2">
             <UButton variant="ghost" @click="resetForm">Отмена</UButton>
@@ -106,7 +120,8 @@ const emptyForm = {
   nameEn: '',
   slug: '',
   flagEmoji: '',
-  description: ''
+  descriptionRu: '',
+  descriptionEn: ''
 }
 
 const form = ref({ ...emptyForm })
@@ -118,7 +133,8 @@ function editCountry(country: any) {
     nameEn: country.nameEn || '',
     slug: country.slug || '',
     flagEmoji: country.flagEmoji || '',
-    description: country.description || ''
+    descriptionRu: country.descriptionRu || '',
+    descriptionEn: country.descriptionEn || ''
   }
   showForm.value = true
 }

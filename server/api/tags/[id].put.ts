@@ -13,7 +13,9 @@ export default defineEventHandler(async (event) => {
       icon: body.icon,
       color: body.color,
       metaTitle: body.metaTitle,
-      metaDesc: body.metaDesc
+      metaDesc: body.metaDesc,
+      descriptionRu: body.descriptionRu,
+      descriptionEn: body.descriptionEn
     }
   })
 

@@ -68,8 +68,25 @@
           </UFormGroup>
 
           <UFormGroup label="SEO Description">
-            <UTextarea v-model="form.metaDesc" rows="2" />
+            <UTextarea v-model="form.metaDesc" :rows="2" />
           </UFormGroup>
+
+          <div class="grid grid-cols-2 gap-4">
+            <UFormGroup label="Описание RU">
+              <UTextarea
+                v-model="form.descriptionRu"
+                :rows="3"
+                placeholder="Описание тега на русском"
+              />
+            </UFormGroup>
+            <UFormGroup label="Описание EN">
+              <UTextarea
+                v-model="form.descriptionEn"
+                :rows="3"
+                placeholder="Tag description in English"
+              />
+            </UFormGroup>
+          </div>
 
           <div class="flex justify-end gap-2">
             <UButton variant="ghost" @click="resetForm">Отмена</UButton>
@@ -109,7 +126,9 @@ const emptyForm = {
   icon: '',
   color: '#3b82f6',
   metaTitle: '',
-  metaDesc: ''
+  metaDesc: '',
+  descriptionRu: '',
+  descriptionEn: ''
 }
 
 const form = ref({ ...emptyForm })
@@ -123,7 +142,9 @@ function editTag(tag: any) {
     icon: tag.icon || '',
     color: tag.color || '#3b82f6',
     metaTitle: tag.metaTitle || '',
-    metaDesc: tag.metaDesc || ''
+    metaDesc: tag.metaDesc || '',
+    descriptionRu: tag.descriptionRu || '',
+    descriptionEn: tag.descriptionEn || ''
   }
   showForm.value = true
 }

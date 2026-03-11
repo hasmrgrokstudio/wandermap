@@ -14,7 +14,9 @@ export default defineEventHandler(async (event) => {
         nameRu: body.nameRu,
         slug: body.slug,
         flagEmoji: body.flagEmoji || null,
-        nameEn: body.nameEn || ''
+        nameEn: body.nameEn || '',
+        descriptionRu: body.descriptionRu || null,
+        descriptionEn: body.descriptionEn || null
       }
     })
   
