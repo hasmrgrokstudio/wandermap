@@ -33,6 +33,25 @@
       </div>
     </section>
 
+    <!-- Emoji-панель -->
+    <section v-if="data?.emojiTags?.length" class="max-w-5xl mx-auto px-6 pb-16">
+      <h2 class="text-2xl font-bold mb-6">Как тебе было?</h2>
+      <div class="flex flex-wrap gap-3">
+        <NuxtLink
+          v-for="et in data.emojiTags"
+          :key="et.id"
+          :to="`/emoji/${et.slug}`"
+          class="flex items-center gap-2 px-4 py-3 bg-gray-900 rounded-xl border border-gray-800 hover:border-gray-600 hover:scale-105 transition-all"
+        >
+          <span class="text-3xl">{{ et.emoji }}</span>
+          <div>
+            <div class="font-medium text-sm">{{ et.nameRu }}</div>
+            <div class="text-xs text-gray-500">{{ et._count?.places || 0 }} мест</div>
+          </div>
+        </NuxtLink>
+      </div>
+    </section>
+
     <!-- Последние места -->
     <section v-if="data?.recentPlaces?.length" class="max-w-5xl mx-auto px-6 pb-20">
       <h2 class="text-2xl font-bold mb-6">Недавно добавленные</h2>

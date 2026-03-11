@@ -32,5 +32,12 @@ export default defineEventHandler(async () => {
     take: 6
   })
 
-  return { countries, totalPlaces, recentPlaces }
+  const emojiTags = await prisma.emojiTag.findMany({
+    include: {
+      _count: { select: { places: true } }
+    },
+    orderBy: { nameRu: 'asc' }
+  })
+
+  return { countries, totalPlaces, recentPlaces, emojiTags }
 })

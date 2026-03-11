@@ -20,15 +20,16 @@
       </p>
     </header>
 
-    <!-- Фильтр по тегам -->
-    <section class="max-w-5xl mx-auto px-6 mb-6">
+   <!-- Фильтры -->
+    <section class="max-w-5xl mx-auto px-6 mb-6 space-y-3">
+      <!-- Теги -->
       <div class="flex flex-wrap gap-2">
         <button
           :class="[
             'px-3 py-1 rounded-full text-sm transition',
-            !activeTag ? 'bg-white text-black' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+            !activeTag && !activeEmoji ? 'bg-white text-black' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
           ]"
-          @click="activeTag = null"
+          @click="activeTag = null; activeEmoji = null"
         >
           Все
         </button>
@@ -39,9 +40,25 @@
             'px-3 py-1 rounded-full text-sm transition',
             activeTag === tag.id ? 'bg-white text-black' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
           ]"
-          @click="activeTag = tag.id"
+          @click="activeTag = tag.id; activeEmoji = null"
         >
           {{ tag.nameRu }}
+        </button>
+      </div>
+
+      <!-- Emoji -->
+      <div v-if="allEmojiTags.length" class="flex flex-wrap gap-2">
+        <button
+          v-for="et in allEmojiTags"
+          :key="et.id"
+          :class="[
+            'px-3 py-1.5 rounded-full text-lg transition',
+            activeEmoji === et.id ? 'bg-white' : 'bg-gray-800 hover:bg-gray-700'
+          ]"
+          @click="activeEmoji = activeEmoji === et.id ? null : et.id; activeTag = null"
+          :title="et.nameRu"
+        >
+          {{ et.emoji }}
         </button>
       </div>
     </section>
@@ -102,23 +119,32 @@ if (!city.value) {
   throw createError({ statusCode: 404, statusMessage: 'Город не найден' })
 }
 
-// Собираем все уникальные теги из мест этого города
-const allTags = computed(() => {
+// Собираем все уникальные emoji-теги из мест
+const allEmojiTags = computed(() => {
   const tags = new Map()
   city.value?.places?.forEach((place: any) => {
-    place.tags?.forEach((tag: any) => {
-      tags.set(tag.id, tag)
+    place.emojiTags?.forEach((et: any) => {
+      tags.set(et.id, et)
     })
   })
   return Array.from(tags.values())
 })
 
 const activeTag = ref<number | null>(null)
+const activeEmoji = ref<number | null>(null)
 
 const filteredPlaces = computed(() => {
-  if (!activeTag.value) return city.value?.places || []
-  return (city.value?.places || []).filter((p: any) =>
-    p.tags?.some((t: any) => t.id === activeTag.value)
-  )
+  let result = city.value?.places || []
+  if (activeTag.value) {
+    result = result.filter((p: any) =>
+      p.tags?.some((t: any) => t.id === activeTag.value)
+    )
+  }
+  if (activeEmoji.value) {
+    result = result.filter((p: any) =>
+      p.emojiTags?.some((et: any) => et.id === activeEmoji.value)
+    )
+  }
+  return result
 })
 </script>
