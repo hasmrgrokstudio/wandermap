@@ -1,28 +1,27 @@
 <template>
   <div class="min-h-screen bg-gray-950 text-white">
-    <nav class="max-w-5xl mx-auto px-6 pt-6 text-sm text-gray-500">
-      <NuxtLink to="/" class="hover:text-white">Главная</NuxtLink>
+    <PublicHeader>
+      <NuxtLink :to="localePath('/')" class="hover:text-white">{{ $t('nav.home') }}</NuxtLink>
       <span class="mx-2">→</span>
       <NuxtLink
-        :to="`/${city?.country?.slug}`"
+        :to="localePath(`/${city?.country?.slug}`)"
         class="hover:text-white"
       >
-        {{ city?.country?.flagEmoji }} {{ city?.country?.nameRu }}
+        {{ city?.country?.flagEmoji }} {{ lc.t(city?.country?.nameRu, city?.country?.nameEn) }}
       </NuxtLink>
       <span class="mx-2">→</span>
-      <span class="text-white">{{ city?.nameRu }}</span>
-    </nav>
+      <span class="text-white">{{ lc.t(city?.nameRu, city?.nameEn) }}</span>
+    </PublicHeader>
 
     <header class="max-w-5xl mx-auto px-6 py-12">
-      <h1 class="text-4xl font-bold">{{ city?.nameRu }}</h1>
+      <h1 class="text-4xl font-bold">{{ lc.t(city?.nameRu, city?.nameEn) }}</h1>
       <p v-if="city?.description" class="text-gray-400 mt-3 text-lg">
         {{ city.description }}
       </p>
     </header>
 
-   <!-- Фильтры -->
+    <!-- Фильтры -->
     <section class="max-w-5xl mx-auto px-6 mb-6 space-y-3">
-      <!-- Теги -->
       <div class="flex flex-wrap gap-2">
         <button
           :class="[
@@ -31,7 +30,7 @@
           ]"
           @click="activeTag = null; activeEmoji = null"
         >
-          Все
+          {{ $t('nav.all') }}
         </button>
         <button
           v-for="tag in allTags"
@@ -42,11 +41,10 @@
           ]"
           @click="activeTag = tag.id; activeEmoji = null"
         >
-          {{ tag.nameRu }}
+          {{ lc.t(tag.nameRu, tag.nameEn) }}
         </button>
       </div>
 
-      <!-- Emoji -->
       <div v-if="allEmojiTags.length" class="flex flex-wrap gap-2">
         <button
           v-for="et in allEmojiTags"
@@ -56,7 +54,7 @@
             activeEmoji === et.id ? 'bg-white' : 'bg-gray-800 hover:bg-gray-700'
           ]"
           @click="activeEmoji = activeEmoji === et.id ? null : et.id; activeTag = null"
-          :title="et.nameRu"
+          :title="lc.t(et.nameRu, et.nameEn)"
         >
           {{ et.emoji }}
         </button>
@@ -69,11 +67,11 @@
         <NuxtLink
           v-for="place in filteredPlaces"
           :key="place.id"
-          :to="`/${city.country.slug}/${city.slug}/${place.slug}`"
+          :to="localePath(`/${city.country.slug}/${city.slug}/${place.slug}`)"
           class="block p-5 bg-gray-900 rounded-xl border border-gray-800 hover:border-gray-600 transition"
         >
           <div class="flex justify-between items-start">
-            <h3 class="font-semibold text-lg">{{ place.titleRu }}</h3>
+            <h3 class="font-semibold text-lg">{{ lc.t(place.titleRu, place.titleEn) }}</h3>
             <div class="flex gap-1">
               <span v-for="et in place.emojiTags" :key="et.id" class="text-lg">
                 {{ et.emoji }}
@@ -92,18 +90,18 @@
               :key="tag.id"
               class="px-2 py-0.5 bg-gray-800 rounded text-xs text-gray-400"
             >
-              {{ tag.nameRu }}
+              {{ lc.t(tag.nameRu, tag.nameEn) }}
             </span>
           </div>
 
-          <p v-if="place.reviewRu" class="text-gray-500 text-sm mt-3 line-clamp-2">
-            {{ place.reviewRu }}
+          <p v-if="place.reviewRu || place.reviewEn" class="text-gray-500 text-sm mt-3 line-clamp-2">
+            {{ lc.t(place.reviewRu, place.reviewEn) }}
           </p>
         </NuxtLink>
       </div>
 
       <p v-if="!filteredPlaces?.length" class="text-gray-500 text-center py-12">
-        Нет мест с таким тегом
+        {{ $t('place.noPlaces') }}
       </p>
     </section>
   </div>
@@ -111,6 +109,9 @@
 
 <script setup lang="ts">
 const route = useRoute()
+const localePath = useLocalePath()
+const lc = useLocaleContent()
+
 const { data: city } = await useFetch<any>(
   `/api/public/city/${route.params.country}/${route.params.city}`
 )
@@ -119,7 +120,16 @@ if (!city.value) {
   throw createError({ statusCode: 404, statusMessage: 'Город не найден' })
 }
 
-// Собираем все уникальные emoji-теги из мест
+const allTags = computed(() => {
+  const tags = new Map()
+  city.value?.places?.forEach((place: any) => {
+    place.tags?.forEach((tag: any) => {
+      tags.set(tag.id, tag)
+    })
+  })
+  return Array.from(tags.values())
+})
+
 const allEmojiTags = computed(() => {
   const tags = new Map()
   city.value?.places?.forEach((place: any) => {

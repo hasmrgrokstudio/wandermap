@@ -1,0 +1,39 @@
+{
+    "site": {
+      "title": "WanderMap",
+      "description": "Personal catalog of places I've visited. Honest reviews, ratings, and emotions."
+    },
+    "nav": {
+      "home": "Home",
+      "about": "About me",
+      "countries": "Countries",
+      "cities": "Cities",
+      "places": "Places",
+      "tags": "Tags",
+      "all": "All"
+    },
+    "place": {
+      "myReview": "My review",
+      "visited": "Visited",
+      "published": "Published",
+      "draft": "Draft",
+      "noPlaces": "No places with this tag",
+      "placesCount": "places",
+      "citiesCount": "cities"
+    },
+    "emoji": {
+      "title": "How did it feel?"
+    },
+    "recent": {
+      "title": "Recently added"
+    },
+    "about": {
+      "title": "About me",
+      "text1": "Hi! I'm traveling across Asia and building my own catalog of tried-and-tested places — from street food to rooftop bars.",
+      "text2": "Every place in WanderMap was visited by me personally. Ratings are honest, reviews are ad-free.",
+      "text3": "Built with Nuxt 3 + Prisma + PostgreSQL as a learning project while mastering the Vue/Node.js stack."
+    },
+    "footer": {
+      "copyright": "WanderMap © {year}"
+    }
+  }

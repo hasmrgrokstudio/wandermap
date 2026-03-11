@@ -11,5 +11,14 @@ export default defineNuxtConfig({
     preference: 'dark',
     fallback: 'dark',
     storageKey: 'wandermap-color-mode'
+  },
+  i18n: {
+    locales: [
+      { code: 'ru', name: 'Русский', file: 'ru.json' },
+      { code: 'en', name: 'English', file: 'en.json' }
+    ],
+    defaultLocale: 'ru',
+    langDir: 'locales',
+    strategy: 'prefix_except_default'
   }
 })
