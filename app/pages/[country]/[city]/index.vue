@@ -157,4 +157,30 @@ const filteredPlaces = computed(() => {
   }
   return result
 })
+
+const { t } = useI18n()
+
+useSeoMeta({
+  title: city.value?.metaTitle || lc.t(city.value?.nameRu, city.value?.nameEn),
+  description: city.value?.metaDesc 
+    || lc.t(city.value?.descriptionRu, city.value?.descriptionEn) 
+    || t('site.description'),
+  
+  ogTitle: city.value?.metaTitle || lc.t(city.value?.nameRu, city.value?.nameEn),
+  ogDescription: city.value?.metaDesc 
+    || lc.t(city.value?.descriptionRu, city.value?.descriptionEn) 
+    || t('site.description'),
+})
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('nav.home'), item: localePath('/') },
+      { 
+        name: lc.t(city.value?.country?.nameRu, city.value?.country?.nameEn), 
+        item: localePath(`/${city.value?.country?.slug}`) 
+      },
+      { name: lc.t(city.value?.nameRu, city.value?.nameEn) },
+    ],
+  }),
+])
 </script>

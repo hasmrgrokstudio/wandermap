@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
     include: {
       city: {
         include: {
-          country: { select: { nameRu: true, slug: true, flagEmoji: true } }
+          country: { select: { nameRu: true, nameEn: true, slug: true, flagEmoji: true } }
         }
       },
       tags: true,

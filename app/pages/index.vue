@@ -89,4 +89,22 @@
 const { data } = await useFetch<any>('/api/public/home')
 const lc = useLocaleContent()
 const localePath = useLocalePath()
+const { t } = useI18n()
+
+// SEO — мета-теги главной страницы
+useSeoMeta({
+  title: t('site.title'),
+  description: t('site.description'),
+
+  // Open Graph — для шаринга в Telegram, VK, Facebook
+  ogTitle: t('site.title'),
+  ogDescription: t('site.description'),
+  ogType: 'website',
+  // ogImage: '/img/og-cover.jpg', // раскомментировать когда будет картинка
+
+  // Twitter Card
+  twitterCard: 'summary_large_image',
+  twitterTitle: t('site.title'),
+  twitterDescription: t('site.description'),
+})
 </script>

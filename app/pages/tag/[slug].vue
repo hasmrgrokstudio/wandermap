@@ -45,4 +45,24 @@ const { data: tag } = await useFetch<any>(`/api/public/tag/${route.params.slug}`
 if (!tag.value) {
   throw createError({ statusCode: 404, statusMessage: 'Тег не найден' })
 }
+const { t } = useI18n()
+useSeoMeta({
+  title: tag.value?.metaTitle || lc.t(tag.value?.nameRu, tag.value?.nameEn),
+  description: tag.value?.metaDesc 
+  || lc.t(tag.value?.descriptionRu, tag.value?.descriptionEn)
+  || t('site.description'),
+  
+  ogTitle: tag.value?.metaTitle || lc.t(tag.value?.nameRu, tag.value?.nameEn),
+  ogDescription: tag.value?.metaDesc 
+  || lc.t(tag.value?.descriptionRu, tag.value?.descriptionEn)
+  || t('site.description'),
+})
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('nav.home'), item: localePath('/') },
+      { name: lc.t(tag.value?.nameRu, tag.value?.nameEn) },
+    ],
+  }),
+])
 </script>

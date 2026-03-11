@@ -22,6 +22,7 @@ model Country {
   metaDesc    String?  @map("meta_desc")
   sortOrder   Int      @default(0) @map("sort_order")
   createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   // Связь: у страны много городов
   cities      City[]
@@ -44,6 +45,7 @@ model City {
   metaTitle   String?  @map("meta_title")
   metaDesc    String?  @map("meta_desc")
   createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   // Связь: город принадлежит стране
   countryId   Int      @map("country_id")
@@ -107,6 +109,7 @@ model Tag {
   metaTitle   String?  @map("meta_title")
   metaDesc    String?  @map("meta_desc")
   createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   // Связь many-to-many с местами
   places      Place[]
@@ -129,6 +132,7 @@ model EmojiTag {
   metaTitle     String?  @map("meta_title")
   metaDesc      String?  @map("meta_desc")
   createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   // Связь many-to-many с местами
   places        Place[]

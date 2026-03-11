@@ -80,4 +80,48 @@ const { data: place } = await useFetch<any>(
 if (!place.value) {
   throw createError({ statusCode: 404, statusMessage: 'Место не найдено' })
 }
+
+const { t } = useI18n()
+useSeoMeta({
+  title: place.value?.metaTitle || lc.t(place.value?.titleRu, place.value?.titleEn),
+  description: place.value?.metaDesc 
+    || lc.t(place.value?.reviewRu, place.value?.reviewEn) 
+    || t('site.description'),
+  
+  ogTitle: place.value?.metaTitle || lc.t(place.value?.titleRu, place.value?.titleEn),
+  ogDescription: place.value?.metaDesc 
+    || lc.t(place.value?.reviewRu, place.value?.reviewEn) 
+    || t('site.description'),
+})
+useSchemaOrg([
+  defineWebPage({
+    '@type': 'ItemPage',
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('nav.home'), item: localePath('/') },
+      { 
+        name: lc.t(place.value?.city?.country?.nameRu, place.value?.city?.country?.nameEn), 
+        item: localePath(`/${place.value?.city?.country?.slug}`) 
+      },
+      { 
+        name: lc.t(place.value?.city?.nameRu, place.value?.city?.nameEn), 
+        item: localePath(`/${place.value?.city?.country?.slug}/${place.value?.city?.slug}`) 
+      },
+      { 
+        name: lc.t(place.value?.titleRu, place.value?.titleEn) 
+      },
+    ],
+  }),
+  defineLocalBusiness({
+    name: lc.t(place.value?.titleRu, place.value?.titleEn),
+    address: place.value?.address || '',
+    aggregateRating: place.value?.rating ? {
+      ratingValue: place.value.rating,
+      bestRating: 5,
+      ratingCount: 1,
+    } : undefined,
+    priceRange: '💲'.repeat(place.value?.priceLevel || 1),
+  }),
+])
 </script>

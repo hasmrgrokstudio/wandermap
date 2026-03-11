@@ -19,4 +19,20 @@
 
 <script setup lang="ts">
 const localePath = useLocalePath()
+const { t } = useI18n()
+useSeoMeta({
+  title: t('about.title'),
+  description: t('about.description'),
+  ogTitle: t('about.title'),
+  ogDescription: t('about.description'),
+})
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('nav.home'), item: localePath('/') },
+      { name: t('about.title') },
+    ],
+  }),
+])
+
 </script>

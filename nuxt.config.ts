@@ -20,5 +20,21 @@ export default defineNuxtConfig({
     defaultLocale: 'ru',
     langDir: 'locales',
     strategy: 'prefix_except_default'
-  }
+  },
+  site: {
+    url: 'https://wandermap.ru', // будущий домен
+    name: 'WanderMap',
+  },
+  sitemap: {
+    sources: [
+      '/api/__sitemap__/urls',
+    ],
+    exclude: [
+      '/admin/**',
+    ],
+  },
+  robots: {
+    disallow: ['/admin'],
+  },
 })
+

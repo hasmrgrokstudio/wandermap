@@ -49,4 +49,28 @@ const { data: country } = await useFetch<any>(
 if (!country.value) {
   throw createError({ statusCode: 404, statusMessage: 'Страна не найдена' })
 }
+
+const { t } = useI18n()
+
+useSeoMeta({
+  title: country.value?.metaTitle || lc.t(country.value?.nameRu, country.value?.nameEn),
+  description: country.value?.metaDesc 
+    || lc.t(country.value?.descriptionRu, country.value?.descriptionEn) 
+    || t('site.description'),
+  
+  ogTitle: country.value?.metaTitle || lc.t(country.value?.nameRu, country.value?.nameEn),
+  ogDescription: country.value?.metaDesc 
+    || lc.t(country.value?.descriptionRu, country.value?.descriptionEn) 
+    || t('site.description'),
+})
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('nav.home'), item: localePath('/') },
+      { 
+        name: lc.t(country.value?.nameRu, country.value?.nameEn), 
+      },
+    ],
+  }),
+])
 </script>

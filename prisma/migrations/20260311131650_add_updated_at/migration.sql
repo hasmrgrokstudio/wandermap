@@ -1,0 +1,4 @@
+ALTER TABLE "countries" ADD COLUMN "updated_at" TIMESTAMP(3) NOT NULL DEFAULT now();
+ALTER TABLE "cities" ADD COLUMN "updated_at" TIMESTAMP(3) NOT NULL DEFAULT now();
+ALTER TABLE "tags" ADD COLUMN "updated_at" TIMESTAMP(3) NOT NULL DEFAULT now();
+ALTER TABLE "emoji_tags" ADD COLUMN "updated_at" TIMESTAMP(3) NOT NULL DEFAULT now();

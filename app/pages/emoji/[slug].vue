@@ -57,4 +57,25 @@ const { data: emojiTag } = await useFetch<any>(`/api/public/emoji/${route.params
 if (!emojiTag.value) {
   throw createError({ statusCode: 404, statusMessage: 'Emoji-тег не найден' })
 }
+
+const { t } = useI18n()
+useSeoMeta({
+  title: emojiTag.value?.metaTitle || lc.t(emojiTag.value?.nameRu, emojiTag.value?.nameEn),
+  description: emojiTag.value?.metaDesc 
+    || lc.t(emojiTag.value?.descriptionRu, emojiTag.value?.descriptionEn) 
+    || t('site.description'),
+  
+  ogTitle: emojiTag.value?.metaTitle || lc.t(emojiTag.value?.nameRu, emojiTag.value?.nameEn),
+  ogDescription: emojiTag.value?.metaDesc 
+    || lc.t(emojiTag.value?.descriptionRu, emojiTag.value?.descriptionEn) 
+    || t('site.description'),
+})
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('nav.home'), item: localePath('/') },
+      { name: lc.t(emojiTag.value?.nameRu, emojiTag.value?.nameEn) },
+    ],
+  }),
+])
 </script>
